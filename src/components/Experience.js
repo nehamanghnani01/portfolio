@@ -4,8 +4,8 @@ import { FaCalendarAlt, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
 const Experience = () => {
   const experiences = [
     {
-      title: "Software Applications Developer - Technology Services",
-      company: "Computer Science Department, Texas A&M University",
+      title: "Software Applications Developer",
+      company: "Technology Services - Enterprise Application Services, Texas A&M University",
       location: "College Station, TX",
       period: "Jun 2025 - Present",
       description: [
