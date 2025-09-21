@@ -33,7 +33,7 @@ const Hero = () => {
               />
             </span>
           </p>
-          <p className="hero-description">Passionate about creating innovative solutions and building amazing user experiences</p>
+          <p className="hero-description">From Code to Impact: Engineering Scalable, Secure, and AI-Driven Solutions</p>
           <div className="hero-code">
             <span className="code-symbol">&lt;/</span>
             <span className="code-tag">developer</span>
@@ -41,11 +41,17 @@ const Hero = () => {
           </div>
           
           <div className="hero-buttons">
+          <button 
+              className="btn" 
+              onClick={() => scrollToSection('experience')}
+            >
+              Experience
+            </button>
             <button 
               className="btn" 
               onClick={() => scrollToSection('projects')}
             >
-              View My Work
+              Projects
             </button>
             <button 
               className="btn btn-outline"
