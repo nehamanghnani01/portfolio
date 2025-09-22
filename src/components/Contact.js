@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaCode } from 'react-icons/fa';
 import { MY_EMAIL, PHONE_NUMBER, LINKEDIN_PROFILE_NAME, GITHUB_PROFILE_NAME, LEETCODE_PROFILE_NAME } from '../constants';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  // EmailJS configuration - Using environment variables for security
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -17,13 +26,41 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // You can integrate with email services like EmailJS or your backend
-    alert('Thank you for your message! I\'ll get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // Prepare template parameters - these variable names must match your EmailJS template
+      const templateParams = {
+        from_name: formData.name,        // {{from_name}} in template
+        from_email: formData.email,      // {{from_email}} in template  
+        subject: formData.subject,       // {{subject}} in template
+        message: formData.message,       // {{message}} in template
+        to_email: MY_EMAIL,              // {{to_email}} in template (optional)
+      };
+
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      console.log('Email sent successfully:', response);
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -51,7 +88,7 @@ const Contact = () => {
     {
       icon: <FaLinkedin />,
       name: "LinkedIn",
-      url: `https://linkedin.com/in/${LINKEDIN_PROFILE_NAME}`
+      url: `https://www.linkedin.com/in/${LINKEDIN_PROFILE_NAME}/`
     },
     {
       icon: <FaGithub />,
@@ -59,7 +96,7 @@ const Contact = () => {
       url: `https://github.com/${GITHUB_PROFILE_NAME}`
     },
     {
-      icon: <FaTwitter />,
+      icon: <FaCode />,
       name: "LeetCode",
       url: `https://leetcode.com/${LEETCODE_PROFILE_NAME}`
     }
@@ -114,6 +151,19 @@ const Contact = () => {
 
           <div className="contact-form">
             <h3>Send Me a Message</h3>
+            
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <div className="alert alert-success">
+                Thank you for your message! I'll get back to you soon.
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="alert alert-error">
+                Sorry, there was an error sending your message. Please try again or contact me directly.
+              </div>
+            )}
+            
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <input
@@ -159,8 +209,8 @@ const Contact = () => {
                 ></textarea>
               </div>
               
-              <button type="submit" className="btn">
-                Send Message
+              <button type="submit" className="btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>

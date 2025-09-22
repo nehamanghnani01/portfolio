@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-info">
             <h3>{MY_NAME}</h3>
-            <p>Full Stack Developer passionate about creating amazing digital experiences.</p>
+            <p>Software Engineer passionate about developing innovative solitions</p>
           </div>
           
           <div className="footer-links">

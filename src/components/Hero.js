@@ -1,7 +1,7 @@
 import React from 'react';
-import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaCode } from 'react-icons/fa';
 import AnimatedTitles from './AnimatedTitles';
-import { MY_NAME } from '../constants';
+import { MY_NAME, GITHUB_PROFILE_NAME, LINKEDIN_PROFILE_NAME, MY_EMAIL, LEETCODE_PROFILE_NAME } from '../constants';
 
 const Hero = () => {
   const scrollToSection = (sectionId) => {
@@ -62,16 +62,19 @@ const Hero = () => {
           </div>
 
           <div className="hero-social">
-            <a href="https://github.com/{GITHUB_PROFILE_NAME}" target="_blank" rel="noopener noreferrer">
+            <a href={`https://github.com/${GITHUB_PROFILE_NAME}`} target="_blank" rel="noopener noreferrer">
               <FaGithub />
             </a>
-            <a href="https://linkedin.com/in/{LINKEDIN_PROFILE_NAME}" target="_blank" rel="noopener noreferrer">
+            <a href={`https://linkedin.com/in/${LINKEDIN_PROFILE_NAME}`} target="_blank" rel="noopener noreferrer">
               <FaLinkedin />
             </a>
-            <a href="mailto:{MY_EMAIL}">
+            <a href={`https://leetcode.com/${LEETCODE_PROFILE_NAME}`} target="_blank" rel="noopener noreferrer">
+              <FaCode />
+            </a>
+            <a href={`mailto:${MY_EMAIL}`}>
               <FaEnvelope />
             </a>
-            <a href="/resume.pdf" download>
+            <a href="/Neha-Manghnani-Resume.pdf" download>
               <FaDownload />
             </a>
           </div>
